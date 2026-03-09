@@ -4,17 +4,22 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "----RUN": "",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
-    "test:unit": "vitest",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build",
     "start": "yarn run build-only && yarn run preview",
-    "lint": "run-s lint:*",
-    "lint:oxlint": "oxlint --fix",
+    "----CHECK": "",
+    "type-check": "vue-tsc --build",
+    "test:unit": "vitest",
+    "lint:oxlint:check": "oxlint",
+    "lint:oxlint:fix": "oxlint --fix",
     "lint:eslint": "eslint --fix --cache",
-    "format": "prettier --write --experimental-cli src"
+    "format:check": "prettier --experimental-cli src",
+    "format:fix": "prettier --write --experimental-cli src",
+    "check-all:check": "yarn run type-check && yarn run lint:oxlint:check && format:check",
+    "check-all:fix": "yarn run type-check && yarn run lint:oxlint:fix && yarn run format:fix"
   },
   "dependencies": {
     "vue": "^3.5.29",
