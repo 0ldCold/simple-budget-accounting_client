@@ -9,7 +9,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
-    "start": "yarn run build-only && yarn run preview",
+    "start": "yarn run preview",
     "----CHECK": "",
     "type-check": "vue-tsc --build",
     "test:unit": "vitest",
