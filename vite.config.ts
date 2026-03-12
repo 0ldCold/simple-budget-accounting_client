@@ -11,12 +11,6 @@ export default defineConfig((configEnv) => {
 
   return {
     plugins: [vue(), vueJsx(), vueDevTools()],
-    define: {
-      'process.env': {
-        ...process.env,
-        ...localEnv,
-      },
-    },
     server: {
       port: Number(localEnv.VITE_PORT ?? 8080),
     },

@@ -8,7 +8,7 @@ interface ICreateRequestParams<TData = unknown> {
 }
 
 export class ApiClass {
-  instance: AxiosInstance
+  protected instance: AxiosInstance
 
   constructor(axiosInstance: AxiosInstance) {
     this.instance = axiosInstance

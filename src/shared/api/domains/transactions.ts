@@ -6,13 +6,13 @@ export class TransactionsApi extends ApiClass {
     super(axiosInstance)
   }
 
-  public getList(): Promise<Paths.ListTransaction.Responses.$200> {
+  public getList = (): Promise<Paths.ListTransaction.Responses.$200> => {
     return this.createRequest({ path: '/Transaction', method: 'get' })
   }
 
-  public create(
+  public create = (
     request: Paths.CreateTransaction.RequestBody,
-  ): Promise<Paths.CreateTransaction.Responses.$201> {
+  ): Promise<Paths.CreateTransaction.Responses.$201> => {
     return this.createRequest({ path: '/Transaction', method: 'post', body: request })
   }
 }

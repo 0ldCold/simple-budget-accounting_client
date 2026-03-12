@@ -11,11 +11,9 @@ import { computed, h } from 'vue'
 
 type TransactionDTO = Components.Schemas.TransactionDTO
 
-interface Props {
+const props = defineProps<{
   data: TransactionDTO[] | undefined
-}
-
-const props = defineProps<Props>()
+}>()
 const data = computed(() => props.data ?? [])
 
 const numberFormat = new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' })
@@ -120,7 +118,7 @@ table {
   color: red;
 }
 thead {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-border);
 }
 td,
 th {
@@ -131,10 +129,11 @@ th {
   padding-bottom: 0;
 }
 tr {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-border);
 }
 tr:hover {
-  background-color: #313131;
+  background-color: var(--color-background-soft);
+  border-color: var(--color-border-hover);
 }
 td:nth-of-type(1) {
   text-align: center;
