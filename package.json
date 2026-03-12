@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "start": "yarn run preview",
+    "generate-api-types": "dtsgen -o ./src/shared/api/swagger.d.ts ../simple-budget-accounting_server/swagger.json",
     "----CHECK": "",
     "type-check": "vue-tsc --build",
     "test:unit": "vitest",
@@ -22,6 +23,9 @@
     "check-all:fix": "yarn run type-check && yarn run lint:oxlint:fix && yarn run format:fix"
   },
   "dependencies": {
+    "@tanstack/vue-query": "^5.92.9",
+    "@tanstack/vue-table": "^8.21.3",
+    "axios": "^1.13.6",
     "vue": "^3.5.29",
     "vue-router": "^5.0.3"
   },
@@ -35,6 +39,7 @@
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
+    "dtsgenerator": "^3.19.2",
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.50.0",
