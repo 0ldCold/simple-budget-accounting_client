@@ -52,23 +52,29 @@ const columns = [
     cell: (info) => info.getValue(),
     size: 150,
   }),
-  columnHelper.accessor('income', {
-    header: 'Доход',
-    cell: getMoneyCell('income'),
-    size: 100,
-  }),
   columnHelper.accessor('expense', {
     header: () => h('div', {}, 'Расход'),
     cell: getMoneyCell('expense'),
+    size: 100,
+  }),
+  columnHelper.accessor('income', {
+    header: 'Доход',
+    cell: getMoneyCell('income'),
     size: 100,
   }),
   columnHelper.accessor('createdAt', {
     header: 'Дата',
     cell: (info) => {
       const date = new Date(info.getValue())
-      return date.toLocaleDateString('ru-RU')
+      return h(
+        'span',
+        {
+          title: date.toLocaleString('ru-RU'),
+        },
+        date.toLocaleDateString('ru-RU'),
+      )
     },
-    size: 100,
+    size: 70,
   }),
   columnHelper.accessor('description', {
     header: 'Описание',
