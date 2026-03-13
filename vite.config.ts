@@ -14,6 +14,9 @@ export default defineConfig((configEnv) => {
     server: {
       port: Number(localEnv.VITE_PORT ?? 8080),
     },
+    preview: {
+      port: Number(localEnv.VITE_PORT ?? 8080),
+    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
