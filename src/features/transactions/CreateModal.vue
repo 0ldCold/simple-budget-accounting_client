@@ -7,6 +7,7 @@ import NumberInput from '@/shared/uiKit/NumberInput.vue'
 import TextArea from '@/shared/uiKit/TextArea.vue'
 import { useRegleSchema } from '@regle/schemas'
 import { z } from 'zod'
+import { calcCountNumberInDecimalPart } from '@/shared/helpers/calcCountNumberInDecimalPart.ts'
 
 const props = defineProps<{ show: boolean; onCreate?: (form: ICreateTransactionForm) => void }>()
 const emit = defineEmits(['close'])
@@ -22,8 +23,18 @@ const { r$ } = useRegleSchema(
   { ...defaultForm },
   z.object({
     name: z.string().min(3).max(50),
-    income: z.number().positive().or(z.number().min(0)),
-    expense: z.number().positive().or(z.number().min(0)),
+    expense: z
+      .number()
+      .nonnegative()
+      .refine((val) => calcCountNumberInDecimalPart(val) <= 2, {
+        error: 'Должно иметь не более 2-х знаков после запятой',
+      }),
+    income: z
+      .number()
+      .nonnegative()
+      .refine((val) => calcCountNumberInDecimalPart(val) <= 2, {
+        error: 'Должно иметь не более 2-х знаков после запятой',
+      }),
     description: z.string().max(255),
   }),
 )
