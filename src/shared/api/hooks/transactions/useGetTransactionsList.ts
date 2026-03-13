@@ -17,10 +17,12 @@ export const useGetTransactionsList = () => {
     queryKey: [QueryKeys.TRANSACTIONS_LIST],
     queryFn: () => api.transactions.getList(),
     select: (data) =>
-      data.map((item) => ({
-        ...item,
-        income: centToMoney(item.income),
-        expense: centToMoney(item.expense),
-      })),
+      data.map(
+        (item): Components.Schemas.TransactionDTO => ({
+          ...item,
+          income: centToMoney(item.income),
+          expense: centToMoney(item.expense),
+        }),
+      ),
   })
 }
