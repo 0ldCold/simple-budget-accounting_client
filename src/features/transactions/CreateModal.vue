@@ -105,7 +105,7 @@ const handleSubmit = async () => {
           </div>
         </div>
         <TextArea
-          label="Описание"
+          label="Контакт"
           rows="3"
           v-model="r$.$value.description"
           :error="r$.description.$error"

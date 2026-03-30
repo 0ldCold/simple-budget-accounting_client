@@ -77,7 +77,7 @@ const columns = [
     size: 70,
   }),
   columnHelper.accessor('description', {
-    header: 'Описание',
+    header: 'Контакт',
     cell: (info) => info.getValue(),
     size: 300,
   }),
