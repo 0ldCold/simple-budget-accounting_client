@@ -53,7 +53,7 @@ const columns = [
     size: 150,
   }),
   columnHelper.accessor('expense', {
-    header: () => h('div', {}, 'Расход'),
+    header: 'Расход',
     cell: getMoneyCell('expense'),
     size: 100,
   }),

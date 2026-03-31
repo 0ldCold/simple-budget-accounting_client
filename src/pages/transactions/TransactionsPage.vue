@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TransactionsTable from '@/widgets/transactions/TransactionsTable/TransactionsTable.vue'
 import { useCreateTransaction, useGetTransactionsList } from '@/shared/api/hooks'
 import CreateModal from '@/features/transactions/CreateModal.vue'
 import { ref } from 'vue'
 import type { ICreateTransactionForm } from '@/features/transactions/types.ts'
+import TablesContainer from '@/widgets/transactions/TablesContainer.vue'
 
 const showCreateModal = ref(false)
 
@@ -28,7 +28,7 @@ const createTransaction = (form: ICreateTransactionForm) => {
       :on-create="createTransaction"
     />
   </div>
-  <TransactionsTable :data="data" />
+  <TablesContainer :data="data" />
 </template>
 
 <style scoped>
