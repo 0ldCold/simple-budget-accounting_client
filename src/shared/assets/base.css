@@ -119,7 +119,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="text"], input[type="number"], textarea {
+input[type="text"], input[type="number"], textarea, input[type='date'] {
   height: 28px;
   font: inherit;
   color: var(--color-text);
@@ -132,6 +132,25 @@ input[type="text"], input[type="number"], textarea {
     border-color: var(--color-border-hover);
     background: var(--color-background-soft);
   }
+}
+input[type="date"] {
+  position: relative;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: transparent;
+  background: none;
+  z-index: 1;
+  cursor: pointer;
+}
+input[type="date"]:after {
+  background: none;
+  display: block;
+  content: '\1F4C5';
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 1px;
+  right: 2px;
 }
 textarea {
   height: unset;

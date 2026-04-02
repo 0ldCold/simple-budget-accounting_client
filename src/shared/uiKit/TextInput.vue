@@ -18,5 +18,9 @@ const modal = defineModel<string>()
 <style scoped>
 .error {
   border-color: red;
+  &:focus,
+  &:hover {
+    border-color: red;
+  }
 }
 </style>

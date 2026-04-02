@@ -3,4 +3,5 @@ export interface ICreateTransactionForm {
   income: number
   expense: number
   description?: string
+  createdAt?: string
 }

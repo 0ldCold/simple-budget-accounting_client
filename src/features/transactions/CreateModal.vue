@@ -5,6 +5,7 @@ import type { ICreateTransactionForm } from '@/features/transactions/types.ts'
 import TextInput from '@/shared/uiKit/TextInput.vue'
 import NumberInput from '@/shared/uiKit/NumberInput.vue'
 import TextArea from '@/shared/uiKit/TextArea.vue'
+import DateInput from '@/shared/uiKit/DateInput.vue'
 import { useRegleSchema } from '@regle/schemas'
 import { z } from 'zod'
 import { calcCountNumberInDecimalPart } from '@/shared/helpers/calcCountNumberInDecimalPart.ts'
@@ -17,6 +18,7 @@ const defaultForm: ICreateTransactionForm = {
   income: 0,
   expense: 0,
   description: '',
+  createdAt: '',
 }
 
 const { r$ } = useRegleSchema(
@@ -36,6 +38,7 @@ const { r$ } = useRegleSchema(
         error: 'Должно иметь не более 2-х знаков после запятой',
       }),
     description: z.string().max(255),
+    createdAt: z.string().optional(),
   }),
 )
 watch(
@@ -71,20 +74,13 @@ const handleSubmit = async () => {
       </template>
 
       <div class="form">
-        <TextInput
-          label="Название"
-          required
-          type="text"
-          v-model="r$.$value.name"
-          :error="r$.name.$error"
-        />
+        <TextInput label="Название" required v-model="r$.$value.name" :error="r$.name.$error" />
         <div>
           <div class="row">
             <NumberInput
               label="Расход"
               labelClass="expenseText"
               required
-              type="number"
               v-model="r$.$value.expense"
               :error="r$.expense.$error"
             />
@@ -92,7 +88,6 @@ const handleSubmit = async () => {
               label="Доход"
               labelClass="incomeText"
               required
-              type="number"
               v-model="r$.$value.income"
               :error="r$.income.$error"
             />
@@ -104,6 +99,7 @@ const handleSubmit = async () => {
             Нужно заполнить как минимум одно поле: Расход или Доход
           </div>
         </div>
+        <DateInput label="Дата" v-model="r$.$value.createdAt" :error="r$.createdAt.$error" />
         <TextArea
           label="Контакт"
           rows="3"
