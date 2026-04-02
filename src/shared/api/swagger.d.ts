@@ -6,6 +6,9 @@ declare namespace Components {
                 message: string;
             };
         }
+        export interface NotFoundErrorJSON {
+            message: string;
+        }
         /**
          * Данные для создания или редактирования Transaction
          */
@@ -29,6 +32,7 @@ declare namespace Components {
              */
             expense?: number; // int32
             /**
+             * При отсутствии createdAt, используется текущая дата
              * example:
              * 2026-03-04T20:28:20.620Z
              */
@@ -82,6 +86,34 @@ declare namespace Paths {
         namespace Responses {
             export type $201 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDTO;
             export type $422 = Components.Schemas.ValidateErrorJSON;
+        }
+    }
+    namespace DeleteTransaction {
+        namespace Parameters {
+            export type Id = number; // double
+        }
+        export interface PathParameters {
+            id: Parameters.Id /* double */;
+        }
+        namespace Responses {
+            export interface $204 {
+            }
+        }
+    }
+    namespace EditTransaction {
+        namespace Parameters {
+            export type Id = number; // double
+        }
+        export interface PathParameters {
+            id: Parameters.Id /* double */;
+        }
+        /**
+         * Новые данные для указанного Transaction
+         */
+        export type RequestBody = /* Данные для создания или редактирования Transaction */ Components.Schemas.TransactionCreationParams;
+        namespace Responses {
+            export type $200 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDTO;
+            export type $404 = Components.Schemas.NotFoundErrorJSON;
         }
     }
     namespace ListTransaction {

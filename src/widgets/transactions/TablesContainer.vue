@@ -8,6 +8,8 @@ type TransactionDTO = Components.Schemas.TransactionDTO
 
 const props = defineProps<{
   data: TransactionDTO[] | undefined
+  onEditRow?: (row: TransactionDTO) => void
+  onDeleteRow?: (row: TransactionDTO) => void
 }>()
 const data = computed(() => props.data ?? [])
 
@@ -46,7 +48,7 @@ const dataByMonth = computed(() => {
       :data="monthData"
       :isFirst="index === 0"
     >
-      <TransactionsTable :data="monthData" />
+      <TransactionsTable :data="monthData" :on-edit-row="onEditRow" :on-delete-row="onDeleteRow" />
     </TableSpoiler>
   </div>
 </template>

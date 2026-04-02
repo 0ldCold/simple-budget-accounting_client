@@ -1,4 +1,5 @@
 export interface ICreateTransactionForm {
+  id?: Components.Schemas.TransactionDTO['id']
   name: string
   income: number
   expense: number

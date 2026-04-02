@@ -10,16 +10,24 @@ import { useRegleSchema } from '@regle/schemas'
 import { z } from 'zod'
 import { calcCountNumberInDecimalPart } from '@/shared/helpers/calcCountNumberInDecimalPart.ts'
 
-const props = defineProps<{ show: boolean; onCreate?: (form: ICreateTransactionForm) => void }>()
+const props = defineProps<{
+  show: ICreateTransactionForm | boolean
+  onSubmit?: (form: ICreateTransactionForm) => void
+}>()
 const emit = defineEmits(['close'])
 
-const defaultForm: ICreateTransactionForm = {
-  name: '',
-  income: 0,
-  expense: 0,
-  description: '',
-  createdAt: '',
-}
+const isEdit = computed(() => typeof props.show === 'object')
+
+const defaultForm: ICreateTransactionForm =
+  typeof props.show === 'object'
+    ? { ...props.show }
+    : {
+        name: '',
+        income: 0,
+        expense: 0,
+        description: '',
+        createdAt: '',
+      }
 
 const { r$ } = useRegleSchema(
   { ...defaultForm },
@@ -37,15 +45,23 @@ const { r$ } = useRegleSchema(
       .refine((val) => calcCountNumberInDecimalPart(val) <= 2, {
         error: 'Должно иметь не более 2-х знаков после запятой',
       }),
-    description: z.string().max(255),
+    description: z.string().max(255).optional(),
     createdAt: z.string().optional(),
   }),
 )
 watch(
   () => props.show,
   (isShow) => {
-    if (!isShow) {
+    if (isShow === false) {
       r$.$reset({ toInitialState: true })
+      return
+    }
+    if (typeof isShow === 'object') {
+      r$.$reset({
+        toState: () => ({
+          ...isShow,
+        }),
+      })
     }
   },
 )
@@ -62,15 +78,15 @@ const handleSubmit = async () => {
     return
   }
 
-  props.onCreate?.(data)
+  props.onSubmit?.(data)
 }
 </script>
 
 <template>
   <Teleport to="body">
-    <ModalWindow :show="props.show" @close="close" @keydown.enter="handleSubmit">
+    <ModalWindow :show="props.show !== false" @close="close" @keydown.enter="handleSubmit">
       <template #header>
-        <h2>Создание транзакции</h2>
+        <h2>{{ isEdit ? 'Редактирование транзакции' : 'Создание транзакции' }}</h2>
       </template>
 
       <div class="form">
@@ -99,19 +115,19 @@ const handleSubmit = async () => {
             Нужно заполнить как минимум одно поле: Расход или Доход
           </div>
         </div>
-        <DateInput label="Дата" v-model="r$.$value.createdAt" :error="r$.createdAt.$error" />
+        <DateInput label="Дата" v-model="r$.$value.createdAt" :error="r$.createdAt?.$error" />
         <TextArea
           label="Контакт"
           rows="3"
           v-model="r$.$value.description"
-          :error="r$.description.$error"
+          :error="r$.description?.$error"
           @keydown.stop
         />
       </div>
 
       <template #footer>
         <div class="button-wrapper">
-          <button @click="handleSubmit">Создать</button>
+          <button @click="handleSubmit">{{ isEdit ? 'Сохранить' : 'Создать' }}</button>
         </div>
       </template>
     </ModalWindow>

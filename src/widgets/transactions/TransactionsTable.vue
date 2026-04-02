@@ -7,14 +7,42 @@ import {
   type ColumnDefTemplate,
   type CellContext,
 } from '@tanstack/vue-table'
-import { computed, h } from 'vue'
+import { type Component, computed, h } from 'vue'
+import EditIcon from '@/shared/icons/EditIcon.vue'
+import DeleteIcon from '@/shared/icons/DeleteIcon.vue'
 
 type TransactionDTO = Components.Schemas.TransactionDTO
 
 const props = defineProps<{
   data: TransactionDTO[] | undefined
+  onEditRow?: (row: TransactionDTO) => void
+  onDeleteRow?: (row: TransactionDTO) => void
 }>()
 const data = computed(() => props.data ?? [])
+
+const handleEditRow = (row: TransactionDTO) => {
+  props.onEditRow?.(row)
+}
+const handleDeleteRow = (row: TransactionDTO) => {
+  props.onDeleteRow?.(row)
+}
+
+const getActions = (
+  row: TransactionDTO,
+): { component: Component; action: () => void; title: string }[] => {
+  return [
+    {
+      component: EditIcon,
+      action: () => handleEditRow(row),
+      title: 'Редактировать запись',
+    },
+    {
+      component: DeleteIcon,
+      action: () => handleDeleteRow(row),
+      title: 'Удалить запись',
+    },
+  ]
+}
 
 const numberFormat = new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' })
 const getMoneyCell =
@@ -28,7 +56,6 @@ const getMoneyCell =
       'span',
       {
         class: [
-          'centerCell',
           {
             'text-green': value > 0 && type === 'income',
             'text-red': value > 0 && type === 'expense',
@@ -81,6 +108,19 @@ const columns = [
     cell: (info) => info.getValue(),
     size: 300,
   }),
+  columnHelper.display({
+    id: 'actions',
+    header: 'Действия',
+    cell: (row) =>
+      h(
+        'div',
+        { class: 'actions' },
+        getActions(row.row.original).map((action) =>
+          h('div', { onClick: action.action, title: action.title }, h(action.component)),
+        ),
+      ),
+    size: 60,
+  }),
 ]
 const table = useVueTable({ data, columns, getCoreRowModel: getCoreRowModel() })
 </script>
@@ -116,6 +156,17 @@ table {
   border-collapse: collapse;
   width: 100%;
   table-layout: fixed;
+}
+.actions {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+  & > * {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    color: var(--color-text);
+  }
 }
 .text-green {
   color: green;
