@@ -40,7 +40,12 @@ const dataByMonth = computed(() => {
 
 <template>
   <div class="wrapper">
-    <TableSpoiler v-for="(monthData, index) in dataByMonth" :key="index" :data="monthData">
+    <TableSpoiler
+      v-for="(monthData, index) in dataByMonth"
+      :key="index"
+      :data="monthData"
+      :isFirst="index === 0"
+    >
       <TransactionsTable :data="monthData" />
     </TableSpoiler>
   </div>

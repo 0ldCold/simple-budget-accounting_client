@@ -7,6 +7,7 @@ type TransactionDTO = Components.Schemas.TransactionDTO
 
 const props = defineProps<{
   data: TransactionDTO[]
+  isFirst?: boolean
 }>()
 
 interface ILocalAmountData {
@@ -51,7 +52,7 @@ const calculatedData = computed<ILocalComputedData>(() => {
   }
 })
 
-const isOpen = ref(false)
+const isOpen = ref(props.isFirst)
 const toggle = () => {
   isOpen.value = !isOpen.value
 }
