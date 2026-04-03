@@ -10,6 +10,8 @@ import {
 import { type Component, computed, h } from 'vue'
 import EditIcon from '@/shared/icons/EditIcon.vue'
 import DeleteIcon from '@/shared/icons/DeleteIcon.vue'
+import { replaceUrlInString } from '@/shared/helpers/checkIsLink.ts'
+import { isStringNotEmpty } from '@/shared/helpers/isStringEmpty.ts'
 
 type TransactionDTO = Components.Schemas.TransactionDTO
 
@@ -105,7 +107,18 @@ const columns = [
   }),
   columnHelper.accessor('description', {
     header: 'Контакт',
-    cell: (info) => info.getValue(),
+    cell: (info) => {
+      const text = info.getValue()
+      if (!isStringNotEmpty(text)) return null
+
+      const textWithChangedLink = replaceUrlInString(
+        text,
+        (link) => `<a href="${link}" target="_blank">${link}</a>`,
+      )
+      return h('span', {
+        innerHTML: textWithChangedLink,
+      })
+    },
     size: 300,
   }),
   columnHelper.display({
