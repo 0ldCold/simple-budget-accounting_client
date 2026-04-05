@@ -18,7 +18,7 @@ export const useGetTransactionsList = () => {
     queryFn: () => api.transactions.getList(),
     select: (data) =>
       data.map(
-        (item): Components.Schemas.TransactionDTO => ({
+        (item): Components.Schemas.TransactionDto => ({
           ...item,
           income: centToMoney(item.income),
           expense: centToMoney(item.expense),

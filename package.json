@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "start": "yarn run preview",
-    "generate-api-types": "dtsgen -o ./src/shared/api/swagger.d.ts ../simple-budget-accounting_server/swagger.json",
+    "generate-api-types": "dtsgen -o ./src/shared/api/swagger.d.ts ../simple-budget-accounting_server/openapi.json",
     "----CHECK": "",
     "type-check": "vue-tsc --build",
     "test:unit": "vitest",

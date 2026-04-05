@@ -1,5 +1,5 @@
-export interface ICreateTransactionForm {
-  id?: Components.Schemas.TransactionDTO['id']
+export interface ICreateTransactionForm extends Components.Schemas.TransactionCreateDto {
+  id?: Components.Schemas.TransactionDto['id']
   name: string
   income: number
   expense: number

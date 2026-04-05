@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { MutationKeys, QueryKeys } from '@/shared/api/queryKeys.ts'
 import { api } from '@/shared/api/domains'
-import { transformCreateTransactionBody } from '@/shared/api/hooks/transactions/helpers.ts'
+import { transformUpdateTransactionBody } from '@/shared/api/hooks/transactions/helpers.ts'
 
 export const useUpdateTransaction = () => {
   const queryClient = useQueryClient()
@@ -10,9 +10,10 @@ export const useUpdateTransaction = () => {
     mutationKey: [MutationKeys.TRANSACTIONS_UPDATE],
 
     mutationFn: (
-      body: Paths.EditTransaction.RequestBody & Paths.EditTransaction.PathParameters,
+      body: Paths.TransactionControllerUpdate.RequestBody &
+        Paths.TransactionControllerUpdate.PathParameters,
     ) => {
-      return api.transactions.edit(body.id, transformCreateTransactionBody(body))
+      return api.transactions.edit(body.id, transformUpdateTransactionBody(body))
     },
 
     onSuccess: () => {

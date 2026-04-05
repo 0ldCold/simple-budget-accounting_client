@@ -1,55 +1,53 @@
 declare namespace Components {
     namespace Schemas {
-        export interface FieldErrors {
-            [name: string]: {
-                value?: any;
-                message: string;
-            };
-        }
-        export interface NotFoundErrorJSON {
-            message: string;
-        }
         /**
-         * Данные для создания или редактирования Transaction
+         * Данные для создания Transaction
          */
-        export interface TransactionCreationParams {
-            /**
-             * example:
-             * Яблоко
-             */
-            name: string;
-            description?: string;
+        export interface TransactionCreateDto {
             /**
              * Доход. В копейках
              * example:
              * 100
              */
-            income?: number; // int32
+            income?: number;
             /**
              * Расход. В копейках
              * example:
              * 100
              */
-            expense?: number; // int32
+            expense?: number;
             /**
-             * При отсутствии createdAt, используется текущая дата
+             * Дата создания. Можно изменять, т.е. "создавать задним числом"
              * example:
              * 2026-03-04T20:28:20.620Z
              */
             createdAt?: string;
+            /**
+             * Комментарий к транзакции
+             * example:
+             */
+            description?: string | null;
+            /**
+             * Название
+             * example:
+             * Пересвет приборки
+             */
+            name: string;
         }
         /**
          * Стандартная DTO Transaction
          */
-        export interface TransactionDTO {
+        export interface TransactionDto {
             /**
+             * ID
              * example:
              * 1
              */
-            id: number; // int32
+            id: number;
             /**
+             * Название
              * example:
-             * Яблоко
+             * Пересвет приборки
              */
             name: string;
             /**
@@ -57,68 +55,111 @@ declare namespace Components {
              * example:
              * 100
              */
-            income: number; // int32
+            income: number;
             /**
              * Расход. В копейках
              * example:
              * 100
              */
-            expense: number; // int32
+            expense: number;
             /**
+             * Дата создания. Можно изменять, т.е. "создавать задним числом"
              * example:
              * 2026-03-04T20:28:20.620Z
              */
             createdAt: string;
-            description?: string | null;
+            /**
+             * Комментарий к транзакции
+             * example:
+             */
+            description: string | null;
         }
-        export interface ValidateErrorJSON {
-            message: "Validation failed";
-            details: FieldErrors;
+        /**
+         * Данные для редактирования Transaction
+         */
+        export interface TransactionUpdateDto {
+            /**
+             * Название
+             * example:
+             * Пересвет приборки
+             */
+            name: string;
+            /**
+             * Доход. В копейках
+             * example:
+             * 100
+             */
+            income: number;
+            /**
+             * Расход. В копейках
+             * example:
+             * 100
+             */
+            expense: number;
+            /**
+             * Дата создания. Можно изменять, т.е. "создавать задним числом"
+             * example:
+             * 2026-03-04T20:28:20.620Z
+             */
+            createdAt: string;
+            /**
+             * Комментарий к транзакции
+             * example:
+             */
+            description?: string | null;
         }
     }
 }
 declare namespace Paths {
-    namespace CreateTransaction {
-        /**
-         * Данные для нового Transaction
-         */
-        export type RequestBody = /* Данные для создания или редактирования Transaction */ Components.Schemas.TransactionCreationParams;
+    namespace TransactionControllerCreate {
+        export type RequestBody = /* Данные для создания Transaction */ Components.Schemas.TransactionCreateDto;
         namespace Responses {
-            export type $201 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDTO;
-            export type $422 = Components.Schemas.ValidateErrorJSON;
+            export type $201 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDto;
         }
     }
-    namespace DeleteTransaction {
+    namespace TransactionControllerFindAll {
+        namespace Responses {
+            export type $200 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDto[];
+        }
+    }
+    namespace TransactionControllerFindOne {
         namespace Parameters {
-            export type Id = number; // double
+            export type Id = number;
         }
         export interface PathParameters {
-            id: Parameters.Id /* double */;
+            id: Parameters.Id;
         }
         namespace Responses {
-            export interface $204 {
+            export type $200 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDto;
+        }
+    }
+    namespace TransactionControllerGetHello {
+        namespace Responses {
+            export type $200 = string;
+        }
+    }
+    namespace TransactionControllerRemove {
+        namespace Parameters {
+            export type Id = number;
+        }
+        export interface PathParameters {
+            id: Parameters.Id;
+        }
+        namespace Responses {
+            export interface $200 {
             }
         }
     }
-    namespace EditTransaction {
+    namespace TransactionControllerUpdate {
         namespace Parameters {
-            export type Id = number; // double
+            export type Id = number;
         }
         export interface PathParameters {
-            id: Parameters.Id /* double */;
+            id: Parameters.Id;
         }
-        /**
-         * Новые данные для указанного Transaction
-         */
-        export type RequestBody = /* Данные для создания или редактирования Transaction */ Components.Schemas.TransactionCreationParams;
+        export type RequestBody = /* Данные для редактирования Transaction */ Components.Schemas.TransactionUpdateDto;
         namespace Responses {
-            export type $200 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDTO;
-            export type $404 = Components.Schemas.NotFoundErrorJSON;
-        }
-    }
-    namespace ListTransaction {
-        namespace Responses {
-            export type $200 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDTO[];
+            export type $200 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDto;
         }
     }
 }

@@ -3,13 +3,13 @@ const trimLocal = <T extends string>(str: T, trim?: boolean): string => {
 }
 
 /**
- * Это строка и она не пустая
+ * Это строка, и она непустая
  */
 export const isStringNotEmpty = <T extends string>(
   data: T | undefined | null,
   trim = true,
 ): data is T => {
-  return typeof data === 'string' && trimLocal(data, trim).length >= 0
+  return typeof data === 'string' && trimLocal(data, trim).length > 0
 }
 
 /**
@@ -23,7 +23,7 @@ export const isStringEmptyAndExist = <T extends string>(
 }
 
 /**
- * Это НЕ строка или это пустая строка
+ * Это НЕ строка, или это пустая строка
  */
 export const isStringEmptyOrNotExist = <T extends string>(
   data: T | undefined | null,

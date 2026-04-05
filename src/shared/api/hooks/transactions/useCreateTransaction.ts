@@ -9,7 +9,7 @@ export const useCreateTransaction = () => {
   return useMutation({
     mutationKey: [MutationKeys.TRANSACTIONS_CREATE],
 
-    mutationFn: (body: Paths.CreateTransaction.RequestBody) => {
+    mutationFn: (body: Paths.TransactionControllerCreate.RequestBody) => {
       return api.transactions.create(transformCreateTransactionBody(body))
     },
     onSuccess: () => {

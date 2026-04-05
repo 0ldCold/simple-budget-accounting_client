@@ -4,17 +4,17 @@ import { isEmpty } from '@/shared/helpers/isEmpty.ts'
 import TableSpoiler from '@/features/transactions/TableSpoiler.vue'
 import TransactionsTable from '@/widgets/transactions/TransactionsTable.vue'
 
-type TransactionDTO = Components.Schemas.TransactionDTO
+type TransactionDto = Components.Schemas.TransactionDto
 
 const props = defineProps<{
-  data: TransactionDTO[] | undefined
-  onEditRow?: (row: TransactionDTO) => void
-  onDeleteRow?: (row: TransactionDTO) => void
+  data: TransactionDto[] | undefined
+  onEditRow?: (row: TransactionDto) => void
+  onDeleteRow?: (row: TransactionDto) => void
 }>()
 const data = computed(() => props.data ?? [])
 
 const dataByMonth = computed(() => {
-  const accDefault: TransactionDTO[][] = []
+  const accDefault: TransactionDto[][] = []
   return data.value.reduce((acc, item) => {
     const newRowDate = new Date(item.createdAt)
     const lastAccItem = acc.at(-1)

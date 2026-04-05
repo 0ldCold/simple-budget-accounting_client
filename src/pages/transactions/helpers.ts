@@ -5,7 +5,7 @@ const dateTransform = (date: string): string => {
 }
 
 export const transformDTOToForm = (
-  row: Components.Schemas.TransactionDTO,
+  row: Components.Schemas.TransactionDto,
 ): ICreateTransactionForm => {
   return {
     ...row,

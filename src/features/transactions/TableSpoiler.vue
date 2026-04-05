@@ -3,10 +3,10 @@ import { computed, ref } from 'vue'
 import { isEmpty } from '@/shared/helpers/isEmpty.ts'
 import MoneyWithLabel from '@/entities/transactions/MoneyWithLabel.vue'
 
-type TransactionDTO = Components.Schemas.TransactionDTO
+type TransactionDto = Components.Schemas.TransactionDto
 
 const props = defineProps<{
-  data: TransactionDTO[]
+  data: TransactionDto[]
   isFirst?: boolean
 }>()
 

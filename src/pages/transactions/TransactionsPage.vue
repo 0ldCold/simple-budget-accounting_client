@@ -14,7 +14,7 @@ const showCreateModal = ref<ICreateTransactionForm | boolean>(false)
 
 const { data } = useGetTransactionsList()
 
-type IEditTransactionForm = ICreateTransactionForm & { id: Components.Schemas.TransactionDTO['id'] }
+type IEditTransactionForm = ICreateTransactionForm & { id: Components.Schemas.TransactionDto['id'] }
 const checkIsEditForm = (
   form: ICreateTransactionForm | IEditTransactionForm,
 ): form is IEditTransactionForm => isNotEmpty(form.id)
@@ -30,11 +30,17 @@ const createTransaction = (form: ICreateTransactionForm) => {
 
 const { mutate: editTransactionRequest } = useUpdateTransaction()
 const editTransaction = (form: IEditTransactionForm) => {
-  editTransactionRequest(form, {
-    onSuccess: () => {
-      showCreateModal.value = false
+  editTransactionRequest(
+    {
+      ...form,
+      createdAt: form.createdAt ?? new Date().toISOString(),
     },
-  })
+    {
+      onSuccess: () => {
+        showCreateModal.value = false
+      },
+    },
+  )
 }
 
 const handleModalSubmit = (form: ICreateTransactionForm) => {
@@ -45,12 +51,12 @@ const handleModalSubmit = (form: ICreateTransactionForm) => {
   }
 }
 
-const onEditRow = (row: Components.Schemas.TransactionDTO) => {
+const onEditRow = (row: Components.Schemas.TransactionDto) => {
   showCreateModal.value = transformDTOToForm(row)
 }
 
 const approveModal = ref<InstanceType<typeof ConfirmModal> | null>(null)
-const approveDelete = (row: Components.Schemas.TransactionDTO) => {
+const approveDelete = (row: Components.Schemas.TransactionDto) => {
   return approveModal.value?.openModal({
     title: 'Удалить транзакцию',
     description: `Вы уверены, что хотите удалить транзакцию "${row.name}"?`,
@@ -59,7 +65,7 @@ const approveDelete = (row: Components.Schemas.TransactionDTO) => {
 }
 
 const { mutate: deleteTransactionRequest } = useDeleteTransaction()
-const onDeleteRow = async (row: Components.Schemas.TransactionDTO) => {
+const onDeleteRow = async (row: Components.Schemas.TransactionDto) => {
   if (!(await approveDelete(row))) return
   deleteTransactionRequest({ id: row.id })
 }

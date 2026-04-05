@@ -13,24 +13,24 @@ import DeleteIcon from '@/shared/icons/DeleteIcon.vue'
 import { replaceUrlInString } from '@/shared/helpers/checkIsLink.ts'
 import { isStringNotEmpty } from '@/shared/helpers/isStringEmpty.ts'
 
-type TransactionDTO = Components.Schemas.TransactionDTO
+type TransactionDto = Components.Schemas.TransactionDto
 
 const props = defineProps<{
-  data: TransactionDTO[] | undefined
-  onEditRow?: (row: TransactionDTO) => void
-  onDeleteRow?: (row: TransactionDTO) => void
+  data: TransactionDto[] | undefined
+  onEditRow?: (row: TransactionDto) => void
+  onDeleteRow?: (row: TransactionDto) => void
 }>()
 const data = computed(() => props.data ?? [])
 
-const handleEditRow = (row: TransactionDTO) => {
+const handleEditRow = (row: TransactionDto) => {
   props.onEditRow?.(row)
 }
-const handleDeleteRow = (row: TransactionDTO) => {
+const handleDeleteRow = (row: TransactionDto) => {
   props.onDeleteRow?.(row)
 }
 
 const getActions = (
-  row: TransactionDTO,
+  row: TransactionDto,
 ): { component: Component; action: () => void; title: string }[] => {
   return [
     {
@@ -50,7 +50,7 @@ const numberFormat = new Intl.NumberFormat('ru-RU', { style: 'currency', currenc
 const getMoneyCell =
   (
     type: 'income' | 'expense',
-  ): ColumnDefTemplate<CellContext<Components.Schemas.TransactionDTO, number>> =>
+  ): ColumnDefTemplate<CellContext<Components.Schemas.TransactionDto, number>> =>
   (info) => {
     const value = info.getValue()
     if (value === 0) return null
@@ -68,7 +68,7 @@ const getMoneyCell =
     )
   }
 
-const columnHelper = createColumnHelper<Components.Schemas.TransactionDTO>()
+const columnHelper = createColumnHelper<Components.Schemas.TransactionDto>()
 
 const columns = [
   columnHelper.accessor('id', {

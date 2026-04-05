@@ -8,7 +8,7 @@ export const useDeleteTransaction = () => {
   return useMutation({
     mutationKey: [MutationKeys.TRANSACTIONS_DELETE],
 
-    mutationFn: ({ id }: Paths.DeleteTransaction.PathParameters) => {
+    mutationFn: ({ id }: Paths.TransactionControllerRemove.PathParameters) => {
       return api.transactions.delete(id)
     },
 
