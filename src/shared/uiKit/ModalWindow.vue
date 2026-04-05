@@ -13,7 +13,7 @@ const close = () => {
 </script>
 
 <template>
-  <div v-if="props.show" class="modal-background" @click.self="close">
+  <div v-if="props.show" class="modal-background" @mousedown.self="close">
     <div class="wrapper" v-bind="$attrs">
       <div class="header">
         <slot name="header" />

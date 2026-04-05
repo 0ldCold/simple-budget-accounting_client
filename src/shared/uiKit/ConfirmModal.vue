@@ -43,7 +43,7 @@ defineExpose({ openModal })
 
 <template>
   <Teleport to="body">
-    <div v-if="isOpen" class="modal-background" @click.self="decline">
+    <div v-if="isOpen" class="modal-background" @mousedown.self="decline">
       <div class="modal-content">
         <h2>{{ title }}</h2>
         <p>{{ description }}</p>
