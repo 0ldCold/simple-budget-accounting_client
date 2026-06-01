@@ -18,33 +18,41 @@ const emit = defineEmits(['close'])
 
 const isEdit = computed(() => typeof props.show === 'object')
 
+const emptyForm: ICreateTransactionForm = {
+  id: undefined,
+  name: '',
+  income: 0,
+  expense: 0,
+  description: '',
+  createdAt: '',
+}
 const defaultForm: ICreateTransactionForm =
   typeof props.show === 'object'
     ? { ...props.show }
     : {
-        name: '',
-        income: 0,
-        expense: 0,
-        description: '',
-        createdAt: '',
+        ...emptyForm,
       }
 
 const { r$ } = useRegleSchema(
   { ...defaultForm },
   z.object({
     name: z.string().min(3).max(50),
-    expense: z
-      .number()
-      .nonnegative()
-      .refine((val) => calcCountNumberInDecimalPart(val) <= 2, {
-        error: 'Должно иметь не более 2-х знаков после запятой',
-      }),
-    income: z
-      .number()
-      .nonnegative()
-      .refine((val) => calcCountNumberInDecimalPart(val) <= 2, {
-        error: 'Должно иметь не более 2-х знаков после запятой',
-      }),
+    expense: z.nullable(
+      z
+        .number()
+        .nonnegative()
+        .refine((val) => calcCountNumberInDecimalPart(val) <= 2, {
+          error: 'Должно иметь не более 2-х знаков после запятой',
+        }),
+    ),
+    income: z.nullable(
+      z
+        .number()
+        .nonnegative()
+        .refine((val) => calcCountNumberInDecimalPart(val) <= 2, {
+          error: 'Должно иметь не более 2-х знаков после запятой',
+        }),
+    ),
     description: z.string().max(255).optional(),
     createdAt: z.string().optional(),
   }),
@@ -53,7 +61,7 @@ watch(
   () => props.show,
   (isShow) => {
     if (isShow === false) {
-      r$.$reset({ toInitialState: true })
+      r$.$reset({ toState: () => ({ ...emptyForm }) })
       return
     }
     if (typeof isShow === 'object') {

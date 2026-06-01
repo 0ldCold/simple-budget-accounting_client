@@ -133,11 +133,6 @@ declare namespace Paths {
             export type $200 = /* Стандартная DTO Transaction */ Components.Schemas.TransactionDto;
         }
     }
-    namespace TransactionControllerGetHello {
-        namespace Responses {
-            export type $200 = string;
-        }
-    }
     namespace TransactionControllerRemove {
         namespace Parameters {
             export type Id = number;

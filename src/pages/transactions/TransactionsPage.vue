@@ -21,11 +21,14 @@ const checkIsEditForm = (
 
 const { mutate: createTransactionRequest } = useCreateTransaction()
 const createTransaction = (form: ICreateTransactionForm) => {
-  createTransactionRequest(form, {
-    onSuccess: () => {
-      showCreateModal.value = false
+  createTransactionRequest(
+    { ...form, income: form.income ?? undefined, expense: form.expense ?? undefined },
+    {
+      onSuccess: () => {
+        showCreateModal.value = false
+      },
     },
-  })
+  )
 }
 
 const { mutate: editTransactionRequest } = useUpdateTransaction()
@@ -34,6 +37,8 @@ const editTransaction = (form: IEditTransactionForm) => {
     {
       ...form,
       createdAt: form.createdAt ?? new Date().toISOString(),
+      income: form.income ?? 0,
+      expense: form.expense ?? 0,
     },
     {
       onSuccess: () => {
