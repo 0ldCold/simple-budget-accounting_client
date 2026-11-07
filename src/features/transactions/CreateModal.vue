@@ -92,13 +92,24 @@ const handleSubmit = async () => {
 
 <template>
   <Teleport to="body">
-    <ModalWindow :show="props.show !== false" @close="close" @keydown.enter="handleSubmit">
+    <ModalWindow
+      :show="props.show !== false"
+      @close="close"
+      @keydown.enter="handleSubmit"
+      data-testid="transactionModalBody"
+    >
       <template #header>
         <h2>{{ isEdit ? 'Редактирование транзакции' : 'Создание транзакции' }}</h2>
       </template>
 
       <div class="form">
-        <TextInput label="Название" required v-model="r$.$value.name" :error="r$.name.$error" />
+        <TextInput
+          label="Название"
+          required
+          v-model="r$.$value.name"
+          :error="r$.name.$error"
+          data-testid="transactionNameInput"
+        />
         <div>
           <div class="row">
             <NumberInput
@@ -107,6 +118,7 @@ const handleSubmit = async () => {
               required
               v-model="r$.$value.expense"
               :error="r$.expense.$error"
+              data-testid="transactionExpenseInput"
             />
             <NumberInput
               label="Доход"
@@ -114,28 +126,38 @@ const handleSubmit = async () => {
               required
               v-model="r$.$value.income"
               :error="r$.income.$error"
+              data-testid="transactionIncomeInput"
             />
           </div>
           <div
             v-if="!isAmountsNotEmpty && r$.income.$dirty && r$.expense.$dirty"
             class="error-text"
+            data-testid="transactionExpenseIncomeValidation"
           >
             Нужно заполнить как минимум одно поле: Расход или Доход
           </div>
         </div>
-        <DateInput label="Дата" v-model="r$.$value.createdAt" :error="r$.createdAt?.$error" />
+        <DateInput
+          label="Дата"
+          v-model="r$.$value.createdAt"
+          :error="r$.createdAt?.$error"
+          data-testid="transactionDatePicker"
+        />
         <TextArea
           label="Контакт"
           rows="3"
           v-model="r$.$value.description"
           :error="r$.description?.$error"
+          data-testid="transactionContactInput"
           @keydown.stop
         />
       </div>
 
       <template #footer>
         <div class="button-wrapper">
-          <button @click="handleSubmit">{{ isEdit ? 'Сохранить' : 'Создать' }}</button>
+          <button @click="handleSubmit" data-testid="transactionSaveButton">
+            {{ isEdit ? 'Сохранить' : 'Создать' }}
+          </button>
         </div>
       </template>
     </ModalWindow>

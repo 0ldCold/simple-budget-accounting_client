@@ -78,7 +78,9 @@ const onDeleteRow = async (row: Components.Schemas.TransactionDto) => {
 
 <template>
   <div class="button-wrapper">
-    <button @click="showCreateModal = true">Создать транзакцию</button>
+    <button @click="showCreateModal = true" data-testid="createTransactionModalButton">
+      Создать транзакцию
+    </button>
     <CreateModal
       :show="showCreateModal"
       @close="showCreateModal = false"
